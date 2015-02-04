@@ -1,5 +1,6 @@
-<h1>New getaway_search</h1>
+<%- model_class = GetawaySearch -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => GetawaySearch %></h1>
+</div>
+<%= render :partial => 'form' %>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', getaway_searches_path %>

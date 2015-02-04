@@ -1,19 +1,26 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = GetawaySearch -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => GetawaySearch %></h1>
+</div>
 
-<p>
-  <strong>Price limit:</strong>
-  <%= @getaway_search.price_limit %>
-</p>
+<div class="fieldset">
+  <dl>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:price_limit) %></dt>
+      <dd><pre class="prettyprint"><%= @getaway_search.price_limit %></pre></dd>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:ip_address) %></dt>
+      <dd><pre class="prettyprint"><%= @getaway_search.ip_address %></pre></dd>
+  </dl>
+</div>
 
-<p>
-  <strong>User:</strong>
-  <%= @getaway_search.user %>
-</p>
+<div class="form-group">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              getaway_searches_path, :class => 'btn btn-default'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_getaway_search_path(@getaway_search), :class => 'btn btn-default' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              getaway_search_path(@getaway_search),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
 
-<p>
-  <strong>Ip address:</strong>
-  <%= @getaway_search.ip_address %>
-</p>
-
-<%= link_to 'Edit', edit_getaway_search_path(@getaway_search) %> |
-<%= link_to 'Back', getaway_searches_path %>
