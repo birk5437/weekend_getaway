@@ -1,0 +1,10 @@
+= semantic_form_for @getaway_search, :html => { :class => 'form-horizontal form-model' } do |f|
+  .form-group
+    = f.label :price_limit, :class => 'control-label col-md-2'
+    .col-md-10
+      = f.text_field :price_limit, :class => 'text-field form-control'
+  .form-group
+    .col-md-offset-2.col-md-10
+      = f.submit nil, :class => 'btn btn-primary'
+      = link_to t('.cancel', :default => t("helpers.links.cancel")), |
+        getaway_searches_path, :class => 'btn btn-default'           |
