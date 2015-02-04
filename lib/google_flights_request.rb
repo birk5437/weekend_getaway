@@ -13,6 +13,7 @@ class GoogleFlightsRequest
   end
 
   def make_request!
+    #doesnt workkk
 
    # https://www.google.com/flights/#search;f=SJC;t=EWR,JFK,LGA;d=2015-04-05;r=2015-04-12
 
@@ -26,13 +27,20 @@ class GoogleFlightsRequest
     }
 
     headers = {
-      "Content-Type" => "application/json; charset=utf-8"
+      # "Content-Type" => "application/json; charset=utf-8",
+      "User-Agent" => "Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0"
     }
 
-    request = Request.new(uri, :params => params, :use_ssl => true)
+    request = Request.new(uri, :params => params, :use_ssl => true, :type => Request::GET)
 
     request.perform
 
   end
 
+  def hack_request!
+    #doesnt worrkkkkkk
+    # TODO: get a real api
+    res = `/Users/burke/google_flights_curl.sh`
+    res2 = res.gsub("[,", "[")
+  end
 end
