@@ -53,7 +53,6 @@ gem 'powder'
 gem "awesome_print"
 
 gem 'haml-rails'
-gem 'haml'
 
 gem 'formtastic', :github => 'justinfrench/formtastic', :branch => 'master'
 
