@@ -49,6 +49,13 @@ gem 'omniauth-facebook'
 gem 'validates_formatting_of'
 gem 'tzinfo-data'
 
+gem "awesome_print"
+
+gem 'haml-rails'
+gem 'haml'
+
+gem 'formtastic', :github => 'justinfrench/formtastic', :branch => 'master'
+
 group :development do
   gem 'pry-rails'
   gem 'better_errors'
