@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Price limit:</strong>
+  <%= @getaway_search.price_limit %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @getaway_search.user %>
+</p>
+
+<p>
+  <strong>Ip address:</strong>
+  <%= @getaway_search.ip_address %>
+</p>
+
+<%= link_to 'Edit', edit_getaway_search_path(@getaway_search) %> |
+<%= link_to 'Back', getaway_searches_path %>

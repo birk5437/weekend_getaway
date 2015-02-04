@@ -1,0 +1,29 @@
+<h1>Listing getaway_searches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Price limit</th>
+      <th>User</th>
+      <th>Ip address</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @getaway_searches.each do |getaway_search| %>
+      <tr>
+        <td><%= getaway_search.price_limit %></td>
+        <td><%= getaway_search.user %></td>
+        <td><%= getaway_search.ip_address %></td>
+        <td><%= link_to 'Show', getaway_search %></td>
+        <td><%= link_to 'Edit', edit_getaway_search_path(getaway_search) %></td>
+        <td><%= link_to 'Destroy', getaway_search, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Getaway search', new_getaway_search_path %>
