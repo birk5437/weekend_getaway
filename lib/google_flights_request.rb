@@ -13,38 +13,6 @@ class GoogleFlightsRequest
   end
 
   def make_request!
-    #doesnt workkk
-
-   # https://www.google.com/flights/#search;f=SJC;t=EWR,JFK,LGA;d=2015-04-05;r=2015-04-12
-
-    uri = URI.parse("https://www.google.com/flights/#search")
-
-    params = {
-      :f => @departure_airport,
-      :t => @destination_airport,
-      :d => @departure_date,
-      :r => @return_date
-    }
-
-    headers = {
-      # "Content-Type" => "application/json; charset=utf-8",
-      "User-Agent" => "Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0"
-    }
-
-    request = Request.new(uri, :params => params, :use_ssl => true, :type => Request::GET)
-
-    request.perform
-
-  end
-
-  def hack_request!
-    #doesnt worrkkkkkk
-    # TODO: get a real api
-    res = `/Users/burke/google_flights_curl.sh`
-    res2 = res.gsub("[,", "[")
-  end
-
-  def opx_request!
     # AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y
 
     uri = URI.parse("https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y")
@@ -73,12 +41,7 @@ class GoogleFlightsRequest
       "Content-Type" => "application/json"
     }
 
-    params = {
-      # "key" => "AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y"
-    }
-
-    request = Request.new(uri, :headers => headers, :body => body, :params => params, :use_ssl => true, :type => Request::POST)
+    request = Request.new(uri, :headers => headers, :body => body, :use_ssl => true, :type => Request::POST)
     request.perform
-    # curl -d @request.json --header "Content-Type: application/json" https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y
   end
 end
