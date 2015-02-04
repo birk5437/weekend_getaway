@@ -29,6 +29,7 @@ class GetawaySearchesController < ApplicationController
   # POST /getaway_searches.json
   def create
     @getaway_search = GetawaySearch.new(getaway_search_params)
+    @getaway_search.user = current_user
 
     respond_to do |format|
       if @getaway_search.save
