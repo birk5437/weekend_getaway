@@ -43,4 +43,42 @@ class GoogleFlightsRequest
     res = `/Users/burke/google_flights_curl.sh`
     res2 = res.gsub("[,", "[")
   end
+
+  def opx_request!
+    # AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y
+
+    uri = URI.parse("https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y")
+
+    body = {
+      "request": {
+        "passengers": {
+          "adultCount": 1
+        },
+        "slice": [
+          {
+            "origin": @departure_airport,
+            "destination": @destination_airport,
+            "date": @departure_date
+          },
+          {
+            "origin": @destination_airport,
+            "destination": @departure_airport,
+            "date": @return_date
+          }
+        ]
+      }
+    }.to_json
+
+    headers = {
+      "Content-Type" => "application/json"
+    }
+
+    params = {
+      # "key" => "AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y"
+    }
+
+    request = Request.new(uri, :headers => headers, :body => body, :params => params, :use_ssl => true, :type => Request::POST)
+    request.perform
+    # curl -d @request.json --header "Content-Type: application/json" https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y
+  end
 end
