@@ -5,12 +5,17 @@ class GoogleFlightsRequest
   attr_accessor :departure_date
   attr_accessor :return_date
 
-  def initialize(departure_airport, destination_airport, departure_date, return_date)
-    @departure_airport = departure_airport
-    @destination_airport = destination_airport
-    @departure_date = departure_date.strftime("%Y-%m-%d")
-    @return_date = return_date.strftime("%Y-%m-%d")
+  def initialize(options={})
+    @max_price = options[:max_price]
+    @departure_airport = options[:departure_airport]
+    @destination_airport = options[:destination_airport]
+    @departure_date = options[:departure_date]
+    @return_date = options[:return_date]
+    @return_date = @return_date.strftime("%Y-%m-%d") if @return_date.present?
+    @departure_date = @departure_date.strftime("%Y-%m-%d") if @departure_date.present?
   end
+
+  # req = GoogleFlightsRequest.new(:max_price => "200.00", :destination_airport => "ATL", :departure_airport => "IND", :departure_date => DateTime.now + 5.weeks, :return_date => DateTime.now + 5.weeks + 3.days)
 
   def make_request!
     # AIzaSyCqXbIkEF3_rYe6UWlxve1onhlVsVYFW4Y
@@ -35,7 +40,14 @@ class GoogleFlightsRequest
           }
         ]
       }
-    }.to_json
+    }
+
+    if @max_price.present?
+      body["maxPrice"] = "USD#{@max_price}"
+    end
+
+    body = body.to_json
+    raise body.inspect
 
     headers = {
       "Content-Type" => "application/json"

@@ -94,6 +94,6 @@ class GetawaySearchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def getaway_search_params
-      params.require(:getaway_search).permit(:price_limit, :user_id, :ip_address)
+      params.require(:getaway_search).permit(:fly_from, :price_limit, :user_id, :ip_address)
     end
 end
