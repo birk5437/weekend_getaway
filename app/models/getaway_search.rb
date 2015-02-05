@@ -6,6 +6,11 @@ class GetawaySearch < ActiveRecord::Base
   # validates_formatting_of :ip_address, using: :ip_address_v4
   acts_as_votable
 
+  def trip_options
+    return [] unless api_result.present?
+    api_result["trips"]["tripOption"]
+  end
+
   def get_api_results!
     raise "Search is not valid!" unless self.valid?
     request = GoogleFlightsRequest.new(
