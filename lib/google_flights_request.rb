@@ -47,7 +47,6 @@ class GoogleFlightsRequest
     end
 
     body = body.to_json
-    raise body.inspect
 
     headers = {
       "Content-Type" => "application/json"
