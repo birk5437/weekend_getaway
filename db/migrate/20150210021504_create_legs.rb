@@ -10,7 +10,7 @@ class CreateLegs < ActiveRecord::Migration
       t.string :operating_disclosure
       t.integer :on_time_performance
       t.integer :mileage
-      t.integer :duration_in_mintues
+      t.integer :duration
       t.references :segment
       t.timestamps
     end

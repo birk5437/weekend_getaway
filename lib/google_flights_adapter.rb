@@ -33,12 +33,12 @@ class GoogleFlightsAdapter
   end
 
   def parse_segment(segment_json)
-    Rails::logger.warn("SEGMENT_JSON - #{segment_json}")
     hsh = {}
     hsh[:qpx_id] = segment_json["id"]
     hsh[:flight_carrier] = segment_json["flight"]["carrier"]
     hsh[:flight_number] = segment_json["flight"]["number"]
     hsh[:cabin] = segment_json["cabin"]
+    hsh[:married_segment_group] = segment_json["marriedSegmentGroup"]
     legs_json = segment_json["leg"]
     hsh[:legs] = legs_json.map{ |j| Leg.new(parse_leg(j)) }
     hsh

@@ -5,6 +5,7 @@ class CreateSegments < ActiveRecord::Migration
       t.string :flight_carrier
       t.string :flight_number
       t.string :cabin
+      t.string :married_segment_group
       t.references :trip_option
       t.timestamps
     end
