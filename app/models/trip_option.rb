@@ -33,4 +33,34 @@ class TripOption < ActiveRecord::Base
     legs.last.try(:arrival_time)
   end
 
+  def outbound_legs
+    segments.where(:married_segment_group => legs.first.segment.married_segment_group).map(&:legs).flatten
+  end
+
+  def outbound_itinerary
+    previous_airport_code = nil
+
+    chunk_result = outbound_legs.map { |leg| [leg.origin, leg.destination]}.flatten.chunk do |airport_code|
+      return_value = (airport_code == previous_airport_code)
+      previous_airport_code = airport_code
+      return_value
+    end
+    chunk_result.select{ |bool, codes| bool == false }.map(&:last).flatten
+  end
+
+  def inbound_legs
+    segments.where(:married_segment_group => legs.last.segment.married_segment_group).map(&:legs).flatten
+  end
+
+  def inbound_itinerary
+    previous_airport_code = nil
+
+    chunk_result = inbound_legs.map { |leg| [leg.origin, leg.destination]}.flatten.chunk do |airport_code|
+      return_value = (airport_code == previous_airport_code)
+      previous_airport_code = airport_code
+      return_value
+    end
+    chunk_result.select{ |bool, codes| bool == false }.map(&:last).flatten
+  end
+
 end

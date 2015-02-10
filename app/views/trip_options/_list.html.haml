@@ -1,8 +1,14 @@
-%table.table.table-striped.table-bordered
+%table.table.table-hover.table-bordered
   %tbody
     - local_assigns[:trip_options].each do |trip_option|
       %tr
-        %td= trip_option.destination_leg.destination
+        %td= trip_option.final_destination
         %td= "$#{'%.02f' % trip_option.price}"
-        %td= "#{trip_option.first_origin} ✈ #{trip_option.final_destination}"
-        %td= "Depart: #{trip_option.leave_at.strftime('%A %B %e, %r')} | Return: #{trip_option.return_at.strftime('%A %B %e, %r')}"
+        %td
+          = trip_option.outbound_itinerary.join(" ✈ ")
+          %br
+          = trip_option.inbound_itinerary.join(" ✈ ")
+        %td
+          = "Depart: #{trip_option.leave_at.strftime('%A %B %e, %r')}"
+        %td
+          = "Return: #{trip_option.return_at.strftime('%A %B %e, %r')}"

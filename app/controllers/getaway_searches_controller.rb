@@ -19,6 +19,7 @@ class GetawaySearchesController < ApplicationController
   # GET /getaway_searches/new
   def new
     @getaway_search = GetawaySearch.new
+    @getaway_searches = GetawaySearch.all
   end
 
   # GET /getaway_searches/1/edit
