@@ -5,6 +5,9 @@ class GetawaySearch < ActiveRecord::Base
   validates_presence_of :fly_from, :price_limit
   serialize :api_result, JSON
   # validates_formatting_of :ip_address, using: :ip_address_v4
+
+  after_create :download_api_results!
+
   acts_as_votable
 
   def get_api_results!
@@ -26,5 +29,13 @@ class GetawaySearch < ActiveRecord::Base
     adapter = GoogleFlightsAdapter.new(self)
     self.trip_options = adapter.trip_options
     save!
+  end
+
+
+  private ############################################################################################################################
+
+  def download_api_results!
+    get_api_results!
+    create_trip_options!
   end
 end
