@@ -21,4 +21,10 @@ class GetawaySearch < ActiveRecord::Base
     self.api_result_updated_at = DateTime.now
     save!
   end
+
+  def create_trip_options!
+    adapter = GoogleFlightsAdapter.new(self)
+    self.trip_options = adapter.trip_options
+    save!
+  end
 end

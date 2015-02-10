@@ -54,6 +54,7 @@ class GoogleFlightsAdapter
     hsh[:arrival_time] = DateTime.parse(leg_json["arrivalTime"])
     hsh[:on_time_performance] = leg_json["onTimePerformance"]
     hsh[:mileage] = leg_json["mileage"]
+    hsh[:duration] = leg_json["duration"]
     hsh
   end
 
