@@ -4,25 +4,17 @@ class TripOption < ActiveRecord::Base
   has_many :segments, :dependent => :destroy
   has_many :legs, :through => :segments
 
+  delegate :fly_from, to: :getaway_search
+
+  validates_presence_of :fly_to
+
   def destination_leg
-    previous_leg = nil
-    legs.each do |l|
-      if previous_leg.present? && previous_leg.destination == l.origin && previous_leg.segment.married_segment_group != l.segment.married_segment_group
-        return previous_leg
-        break
-      else
-        previous_leg = l
-      end
-    end
+    legs.where(destination: fly_to, limit: 1)
   end
 
   def first_origin
     return nil unless legs.present?
     legs.first.origin
-  end
-
-  def final_destination
-    destination_leg.destination
   end
 
   def leave_at
@@ -34,7 +26,7 @@ class TripOption < ActiveRecord::Base
   end
 
   def outbound_legs
-    segments.where(:married_segment_group => legs.first.segment.married_segment_group).map(&:legs).flatten
+    legs.take_while{ |leg| leg.origin != fly_to }
   end
 
   def outbound_itinerary
@@ -49,7 +41,7 @@ class TripOption < ActiveRecord::Base
   end
 
   def inbound_legs
-    segments.where(:married_segment_group => legs.last.segment.married_segment_group).map(&:legs).flatten
+    legs - outbound_legs
   end
 
   def inbound_itinerary

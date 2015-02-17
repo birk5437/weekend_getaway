@@ -2,7 +2,8 @@
   %tbody
     - local_assigns[:trip_options].each do |trip_option|
       %tr
-        %td= trip_option.final_destination
+        %td= trip_option.id
+        %td= trip_option.fly_to
         %td= "$#{'%.02f' % trip_option.price}"
         %td
           = trip_option.outbound_itinerary.join(" ✈ ")
