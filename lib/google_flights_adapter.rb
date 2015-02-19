@@ -4,11 +4,12 @@ class GoogleFlightsAdapter
   # s = GetawaySearch.last
   # res = GoogleFlightsAdapter.parse_trip_option(s.trip_options.first)
 
-  attr_accessor :getaway_search
+  attr_accessor :getaway_search, :api_result
 
 
-  def initialize(getaway_search)
-    @getaway_search = getaway_search
+  def initialize(api_result)
+    @getaway_search = api_result.getaway_search
+    @api_result = api_result
   end
 
   def trip_options
@@ -18,8 +19,8 @@ class GoogleFlightsAdapter
   end
 
   def trip_options_json
-    return [] unless @getaway_search.api_result.present?
-    @getaway_search.api_result["trips"]["tripOption"]
+    return [] unless @api_result.present?
+    @api_result.result_json["trips"]["tripOption"]
   end
 
   def parse_trip_option(trip_option_json)
