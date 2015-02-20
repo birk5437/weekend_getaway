@@ -7,8 +7,14 @@
     = f.label :price_limit, :class => 'control-label col-md-2'
     .col-md-10
       = f.text_field :price_limit, :class => 'text-field form-control'
-  = f.input :leave_on, as: :select, collection: GetawaySearch::VALID_LEAVE_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control'
-  = f.input :return_on, as: :select, collection: GetawaySearch::VALID_RETURN_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control'
+  .form-group
+    = f.label :leave_on, :class => 'control-label col-md-2'
+    .col-md-10
+      = f.input :leave_on, as: :select, collection: GetawaySearch::VALID_LEAVE_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control', label: false, allow_blank: false
+  .form-group
+    = f.label :return_on, :class => 'control-label col-md-2'
+    .col-md-10
+      = f.input :return_on, as: :select, collection: GetawaySearch::VALID_RETURN_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control', label: false, allow_blank: false
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, :class => 'btn btn-primary'

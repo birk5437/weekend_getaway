@@ -7,9 +7,9 @@ class GetawaySearch < ActiveRecord::Base
   has_many :trip_options, :dependent => :destroy
   has_many :api_results, :dependent => :destroy
 
-  validates_presence_of :fly_from, :price_limit
-  validates_inclusion_of :leave_on, :in => VALID_LEAVE_ON_VALUES.keys.map(&:to_s)
-  validates_inclusion_of :return_on, :in => VALID_RETURN_ON_VALUES.keys.map(&:to_s)
+  validates_presence_of :fly_from, :price_limit, :leave_on, :return_on
+  # validates_inclusion_of :leave_on, :in => VALID_LEAVE_ON_VALUES.keys.map(&:to_s)
+  # validates_inclusion_of :return_on, :in => VALID_RETURN_ON_VALUES.keys.map(&:to_s)
   # validates_formatting_of :ip_address, using: :ip_address_v4
 
   after_create :download_api_results!

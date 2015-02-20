@@ -18,7 +18,7 @@ class GetawaySearchesController < ApplicationController
 
   # GET /getaway_searches/new
   def new
-    @getaway_search = GetawaySearch.new
+    @getaway_search = GetawaySearch.new(leave_on: "a_friday", return_on: "following_sunday")
     @getaway_searches = GetawaySearch.all
   end
 

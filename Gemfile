@@ -56,6 +56,7 @@ gem "awesome_print"
 gem 'haml-rails'
 
 gem 'formtastic', :github => 'justinfrench/formtastic', :branch => 'master'
+gem 'formtastic-bootstrap'
 
 group :development do
   gem 'pry-rails'
