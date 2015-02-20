@@ -3,18 +3,22 @@
 %table.table.table-striped
   %thead
     %tr
-      %th ID
+      %th Fly From
       %th= model_class.human_attribute_name(:price_limit)
-      %th= model_class.human_attribute_name(:ip_address)
-      %th= model_class.human_attribute_name(:created_at)
+      %th= "Cheapest Option"
+      %th= "Leave"
+      %th= "Return"
       %th= t '.actions', :default => t("helpers.actions")
   %tbody
     - local_assigns[:getaway_searches].each do |getaway_search|
       %tr
-        %td= getaway_search.id
-        %td= getaway_search.price_limit
-        %td= getaway_search.ip_address
-        %td= l getaway_search.created_at, format: :long
+        %td= getaway_search.fly_from
+        %td= money_format(getaway_search.price_limit)
+        - cheapest_option = getaway_search.cheapest_trip_option
+        %td= "#{cheapest_option.outbound_itinerary.join(" ✈ ")} for #{money_format(cheapest_option.price)}"
+
+        %td= "#{cheapest_option.leave_at.strftime('%A %B %e, %r')}"
+        %td= "#{cheapest_option.return_at.strftime('%A %B %e, %r')}"
         %td
           = link_to getaway_search_path(getaway_search), :class => 'btn btn-xs', :title => "#{ t('.show', :default => t('helpers.links.show')) }" do
             = glyph 'info-sign'
