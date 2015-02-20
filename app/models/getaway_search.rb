@@ -8,9 +8,8 @@ class GetawaySearch < ActiveRecord::Base
   has_many :api_results, :dependent => :destroy
 
   validates_presence_of :fly_from, :price_limit
-  # validates_inclusion_of :leave_on, :in => VALID_LEAVE_ON_VALUES.keys.map(&:to_s)
-  # validates_inclusion_of :return_on, :in => VALID_RETURN_ON_VALUES.keys.map(&:to_s)
-  # serialize :api_result, JSON
+  validates_inclusion_of :leave_on, :in => VALID_LEAVE_ON_VALUES.keys.map(&:to_s)
+  validates_inclusion_of :return_on, :in => VALID_RETURN_ON_VALUES.keys.map(&:to_s)
   # validates_formatting_of :ip_address, using: :ip_address_v4
 
   after_create :download_api_results!
@@ -35,21 +34,36 @@ class GetawaySearch < ActiveRecord::Base
   def add_trip_options!
     api_results.each do |res|
       adapter = GoogleFlightsAdapter.new(res)
-      self.trip_options = adapter.trip_options
-      save!
+      adapter.trip_options.each do |trip_option|
+        self.trip_options << trip_option if trip_option.price < price_limit + 10.0
+      end
+      # save!
     end
   end
 
+  def earliest_departure_date
+    Chronic.parse("next #{leave_on.gsub('a_', '')}")
+  end
 
   private ############################################################################################################################
 
   def download_api_results!
-    get_api_result(
-      price_limit: price_limit,
-      fly_from: fly_from,
-      departure_date: DateTime.now + 5.weeks,
-      return_date: DateTime.now + 5.weeks + 3.days
-    )
+
+
+    [earliest_departure_date, earliest_departure_date + 7.days, earliest_departure_date + 14.days].each do |possible_departure_date|
+      get_api_result(
+        price_limit: price_limit,
+        fly_from: fly_from,
+        departure_date: possible_departure_date,
+        return_date: possible_departure_date + 2.days
+      )
+    end
+
     add_trip_options!
   end
+
+  def get_first_departure_date
+    Chronic.parse("next #{leave_on.gsub('a_', '')}") + 7.hours
+  end
+
 end

@@ -7,6 +7,8 @@
     = f.label :price_limit, :class => 'control-label col-md-2'
     .col-md-10
       = f.text_field :price_limit, :class => 'text-field form-control'
+  = f.input :leave_on, as: :select, collection: GetawaySearch::VALID_LEAVE_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control'
+  = f.input :return_on, as: :select, collection: GetawaySearch::VALID_RETURN_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control'
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, :class => 'btn btn-primary'
