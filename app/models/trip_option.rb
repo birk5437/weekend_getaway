@@ -18,11 +18,11 @@ class TripOption < ActiveRecord::Base
   end
 
   def leave_at
-    legs.first.try(:departure_time)
+    legs.first.try(:local_departure_time)
   end
 
   def return_at
-    legs.last.try(:arrival_time)
+    legs.last.try(:local_arrival_time)
   end
 
   def outbound_legs
