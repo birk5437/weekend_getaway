@@ -51,9 +51,11 @@ class GoogleFlightsAdapter
     hsh[:aircraft] = leg_json["aircraft"]
     hsh[:origin] = leg_json["origin"]
     hsh[:departure_time] = DateTime.parse(leg_json["departureTime"])
+    hsh[:departure_time_stamp] = leg_json["departureTime"]
     hsh[:departure_time_zone] = DateTime.parse(leg_json["departureTime"]).zone
     hsh[:destination] = leg_json["destination"]
     hsh[:arrival_time] = DateTime.parse(leg_json["arrivalTime"])
+    hsh[:arrival_time_stamp] = leg_json["arrivalTime"]
     hsh[:arrival_time_zone] = DateTime.parse(leg_json["arrivalTime"]).zone
     hsh[:on_time_performance] = leg_json["onTimePerformance"]
     hsh[:mileage] = leg_json["mileage"]
