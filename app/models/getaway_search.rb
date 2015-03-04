@@ -55,10 +55,10 @@ class GetawaySearch < ActiveRecord::Base
 
 
     [
-      earliest_departure_date
-      ,earliest_departure_date + 7.days
-      ,earliest_departure_date + 14.days
-      # ,earliest_departure_date + 21.days  # TODO: move into worker to do longer searches
+      earliest_departure_date,
+      earliest_departure_date + 7.days,
+      earliest_departure_date + 14.days
+      # earliest_departure_date + 21.days  # TODO: move into worker to do longer searches
     ].each do |possible_departure_date|
       get_api_result(
         price_limit: price_limit,
