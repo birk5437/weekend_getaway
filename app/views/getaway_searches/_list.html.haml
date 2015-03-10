@@ -15,10 +15,14 @@
         %td= getaway_search.fly_from
         %td= money_format(getaway_search.price_limit)
         - cheapest_option = getaway_search.cheapest_trip_option
-        %td= "#{cheapest_option.outbound_itinerary.join(" ✈ ")} for #{money_format(cheapest_option.price)}"
-
-        %td= "#{cheapest_option.leave_at.strftime('%A %B %e, %r')}"
-        %td= "#{cheapest_option.return_at.strftime('%A %B %e, %r')}"
+        - if cheapest_option.present?
+          %td= "#{cheapest_option.outbound_itinerary.join(" ✈ ")} for #{money_format(cheapest_option.price)}"
+          %td= "#{cheapest_option.leave_at.strftime('%A %B %e, %r')}"
+          %td= "#{cheapest_option.return_at.strftime('%A %B %e, %r')}"
+        - else
+          %td
+          %td
+          %td
         %td
           = link_to getaway_search_path(getaway_search), :class => 'btn btn-xs', :title => "#{ t('.show', :default => t('helpers.links.show')) }" do
             = glyph 'info-sign'

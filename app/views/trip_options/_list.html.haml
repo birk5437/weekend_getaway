@@ -2,15 +2,17 @@
 %table.table.table-hover.table-bordered
   %tbody
     - local_assigns[:trip_options].each do |trip_option|
+      - outbound_legs = trip_option.outbound_legs
+      - inbound_legs = trip_option.inbound_legs
       %tr
         %td= trip_option.id
+        %td= trip_option.leave_at.strftime('%A, %B %e') + " to " + trip_option.return_at.strftime('%A, %B %e')
         %td= trip_option.fly_to
         %td= "$#{'%.02f' % trip_option.price}"
         %td
-          = trip_option.outbound_itinerary.join(" ✈ ")
+          - outbound_times = "Depart " + outbound_legs.first.local_departure_time.strftime('%l:%M %P') + ", Arrive " + outbound_legs.last.local_arrival_time.strftime('%l:%M %P')
+          = ("<b>" + trip_option.outbound_itinerary.join(" ✈ ") + "</b>" + " [" + outbound_times + "]").html_safe
           %br
-          = trip_option.inbound_itinerary.join(" ✈ ")
-        %td
-          = "Depart: #{trip_option.leave_at.strftime('%A %B %e, %r')}"
-        %td
-          = "Return: #{trip_option.return_at.strftime('%A %B %e, %r')}"
+          - inbound_times = "Depart " + inbound_legs.first.local_departure_time.strftime('%l:%M %P') + ", Arrive " + inbound_legs.last.local_arrival_time.strftime('%l:%M %P')
+          = ("<b>" + trip_option.inbound_itinerary.join(" ✈ ") + "</b>" + " [" + inbound_times + "]").html_safe
+
