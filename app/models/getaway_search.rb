@@ -18,16 +18,21 @@ class GetawaySearch < ActiveRecord::Base
 
   def get_api_result(param_options={})
     raise "Search is not valid!" unless self.valid?
-    request = GoogleFlightsRequest.new(
-      :max_price => '%.02f' % param_options[:price_limit],
-      :departure_airport => param_options[:fly_from],
-      :destination_airport => "ATL",
-      :departure_date => param_options[:departure_date],#DateTime.now + 5.weeks,
-      :return_date => param_options[:return_date]#DateTime.now + 5.weeks + 3.days
-    )
 
-    response = request.make_request!
-    api_res = ApiResult.new(result_json: JSON.parse(response.body))
+    key = "#{param_options[:fly_from]}_to_ATL_on_#{param_options[:departure_date].to_s}_return_#{param_options[:return_date].to_s}"
+    response_body = DbCacheItem.get(key, valid_for: 12.hours) do
+      request = GoogleFlightsRequest.new(
+        :max_price => "1000.00",#'%.02f' % param_options[:price_limit],
+        :departure_airport => param_options[:fly_from],
+        :destination_airport => "ATL",
+        :departure_date => param_options[:departure_date],#DateTime.now + 5.weeks,
+        :return_date => param_options[:return_date]#DateTime.now + 5.weeks + 3.days
+      )
+      response = request.make_request!
+      response.body
+    end
+
+    api_res = ApiResult.new(result_json: JSON.parse(response_body))
     self.api_results << api_res
   end
 
@@ -37,7 +42,6 @@ class GetawaySearch < ActiveRecord::Base
       adapter.trip_options.each do |trip_option|
         self.trip_options << trip_option if trip_option.price < price_limit + 10.0
       end
-      # save!
     end
   end
 
