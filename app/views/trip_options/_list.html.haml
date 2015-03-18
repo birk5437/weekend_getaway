@@ -5,14 +5,7 @@
       - outbound_legs = trip_option.outbound_legs
       - inbound_legs = trip_option.inbound_legs
       %tr
-        %td
-          -#%p.lead{style: "font-weight: bold;"}
-          %p.lead.pull-right.green
-            = "$#{'%.02f' % trip_option.price}"
-          %h3.margin-top-zero
-            = trip_option.destination_leg.destination
-
-          = trip_option.leave_at.strftime('%A, %B %e') + " to " + trip_option.return_at.strftime('%A, %B %e')
+        %td= render partial: "trip_options/summary_info_cell.html.haml", locals: { trip_option: trip_option }
 
         %td
           - outbound_times = "Depart " + outbound_legs.first.local_departure_time.strftime('%l:%M %P') + ", Arrive " + outbound_legs.last.local_arrival_time.strftime('%l:%M %P')

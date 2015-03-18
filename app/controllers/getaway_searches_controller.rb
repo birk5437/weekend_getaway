@@ -9,6 +9,7 @@ class GetawaySearchesController < ApplicationController
   # GET /getaway_searches.json
   def index
     @getaway_searches = GetawaySearch.all
+    @getaway_search = GetawaySearch.new(leave_on: "a_friday", return_on: "following_sunday")
   end
 
   # GET /getaway_searches/1
@@ -19,7 +20,7 @@ class GetawaySearchesController < ApplicationController
   # GET /getaway_searches/new
   def new
     @getaway_search = GetawaySearch.new(leave_on: "a_friday", return_on: "following_sunday")
-    @getaway_searches = GetawaySearch.all
+    # @getaway_searches = GetawaySearch.all
   end
 
   # GET /getaway_searches/1/edit

@@ -1,0 +1,12 @@
+- trip_option = local_assigns[:trip_option]
+.row
+  .col-md-3.col-sm-4.col-xs-6
+    %h3.margin-top-zero
+      = trip_option.destination_leg.destination
+  .col-md-9.col-sm-8.col-xs-6
+    %p.lead.green
+      = money_format(trip_option.price)
+
+.row
+  .col-md-12
+    = trip_option.leave_at.strftime('%A, %B %e') + " to " + trip_option.return_at.strftime('%A, %B %e')

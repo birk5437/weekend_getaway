@@ -1,14 +1,11 @@
 - model_class = GetawaySearch
 .page-header
   %h1= t '.title', :default => GetawaySearch
-.fieldset
-  %dl
-    %dt.label.label-default= model_class.human_attribute_name(:price_limit)
-    %dd
-      %pre.prettyprint= @getaway_search.price_limit
-    %dt.label.label-default= model_class.human_attribute_name(:ip_address)
-    %dd
-      %pre.prettyprint= @getaway_search.ip_address
+
+.lead
+  = "Fly From: #{@getaway_search.fly_from}"
+.lead
+  = "Price Limit: #{money_format(@getaway_search.price_limit)}"
 .form-group
   = link_to t('.back', :default => t("helpers.links.back")), |
     getaway_searches_path, :class => 'btn btn-default'       |
@@ -22,4 +19,5 @@
     :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, |
     :class => 'btn btn-danger'                                                                                   |
 
+%h2 Trip Options
 = render partial: "trip_options/list", locals: { trip_options: @getaway_search.trip_options.sort_by(&:price) }

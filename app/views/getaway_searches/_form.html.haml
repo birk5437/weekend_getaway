@@ -17,6 +17,6 @@
       = f.input :return_on, as: :select, collection: GetawaySearch::VALID_RETURN_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control', label: false, allow_blank: false
   .form-group
     .col-md-offset-2.col-md-10
-      = f.submit nil, :class => 'btn btn-primary'
-      = link_to t('.cancel', :default => t("helpers.links.cancel")), |
-        getaway_searches_path, :class => 'btn btn-default'           |
+      = f.submit "Find a weekend getaway!", :class => 'btn btn-primary'
+      - unless local_assigns[:hide_cancel]
+        = link_to t('.cancel', :default => t("helpers.links.cancel")), getaway_searches_path, :class => 'btn btn-default'

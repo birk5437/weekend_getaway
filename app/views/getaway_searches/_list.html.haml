@@ -6,26 +6,22 @@
       %th Fly From
       %th= model_class.human_attribute_name(:price_limit)
       %th= "Cheapest Option"
-      %th= "Leave"
-      %th= "Return"
-      %th= t '.actions', :default => t("helpers.actions")
+      %th=# t '.actions', :default => t("helpers.actions")
   %tbody
     - local_assigns[:getaway_searches].each do |getaway_search|
       %tr
-        %td= getaway_search.fly_from
-        %td= money_format(getaway_search.price_limit)
+        %td.lead= getaway_search.fly_from
+        %td.lead= money_format(getaway_search.price_limit)
         - cheapest_option = getaway_search.cheapest_trip_option
         - if cheapest_option.present?
-          %td= "#{cheapest_option.outbound_itinerary.join(" ✈ ")} for #{money_format(cheapest_option.price)}"
-          %td= "#{cheapest_option.leave_at.strftime('%A %B %e, %r')}"
-          %td= "#{cheapest_option.return_at.strftime('%A %B %e, %r')}"
+          %td{ style: "max-width: 525px;" }
+            = render partial: "trip_options/summary_info_cell.html.haml", locals: { trip_option: cheapest_option }
         - else
           %td
-          %td
-          %td
         %td
-          = link_to getaway_search_path(getaway_search), :class => 'btn btn-xs', :title => "#{ t('.show', :default => t('helpers.links.show')) }" do
-            = glyph 'info-sign'
-            = glyph 'pencil'
-          = link_to getaway_search_path(getaway_search), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs', :title => "#{ t('.destroy', :default => t('helpers.links.destroy')) }" do
-            = glyph 'remove'
+          = link_to("Show Trip Options", getaway_search_path(getaway_search), :class => "btn btn-primary")
+          =# link_to getaway_search_path(getaway_search), :class => 'btn btn-xs', :title => "#{ t('.show', :default => t('helpers.links.show')) }" do
+          =# glyph 'info-sign'
+          =# glyph 'pencil'
+          =# link_to getaway_search_path(getaway_search), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs', :title => "#{ t('.destroy', :default => t('helpers.links.destroy')) }" do
+          =# glyph 'remove'
