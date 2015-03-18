@@ -5,10 +5,15 @@
       - outbound_legs = trip_option.outbound_legs
       - inbound_legs = trip_option.inbound_legs
       %tr
-        %td= trip_option.id
-        %td= trip_option.leave_at.strftime('%A, %B %e') + " to " + trip_option.return_at.strftime('%A, %B %e')
-        %td= trip_option.fly_to
-        %td= "$#{'%.02f' % trip_option.price}"
+        %td
+          -#%p.lead{style: "font-weight: bold;"}
+          %p.lead.pull-right.green
+            = "$#{'%.02f' % trip_option.price}"
+          %h3.margin-top-zero
+            = trip_option.destination_leg.destination
+
+          = trip_option.leave_at.strftime('%A, %B %e') + " to " + trip_option.return_at.strftime('%A, %B %e')
+
         %td
           - outbound_times = "Depart " + outbound_legs.first.local_departure_time.strftime('%l:%M %P') + ", Arrive " + outbound_legs.last.local_arrival_time.strftime('%l:%M %P')
           = ("<b>" + trip_option.outbound_itinerary.join(" ✈ ") + "</b>" + " [" + outbound_times + "]").html_safe

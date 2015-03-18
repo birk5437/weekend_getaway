@@ -9,7 +9,7 @@ class TripOption < ActiveRecord::Base
   validates_presence_of :fly_to
 
   def destination_leg
-    legs.where(destination: fly_to, limit: 1)
+    legs.where(destination: fly_to).limit(1).first
   end
 
   def first_origin
