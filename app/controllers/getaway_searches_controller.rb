@@ -8,7 +8,7 @@ class GetawaySearchesController < ApplicationController
   # GET /getaway_searches
   # GET /getaway_searches.json
   def index
-    @getaway_searches = GetawaySearch.all
+    @getaway_searches = GetawaySearch.all.order("created_at desc")
     @getaway_search = GetawaySearch.new(leave_on: "a_friday", return_on: "following_sunday")
   end
 
