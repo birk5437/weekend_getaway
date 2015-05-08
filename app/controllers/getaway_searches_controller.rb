@@ -35,6 +35,7 @@ class GetawaySearchesController < ApplicationController
 
     respond_to do |format|
       if @getaway_search.save
+        Resque.enqueue(GetawaySearchWorker, @getaway_search.id)
         format.html { redirect_to @getaway_search, notice: 'Getaway search was successfully created.' }
         format.json { render :show, status: :created, location: @getaway_search }
       else

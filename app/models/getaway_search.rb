@@ -14,7 +14,6 @@ class GetawaySearch < ActiveRecord::Base
   # validates_inclusion_of :return_on, :in => VALID_RETURN_ON_VALUES.keys.map(&:to_s)
   # validates_formatting_of :ip_address, using: :ip_address_v4
 
-  after_create :download_api_results!
 
   acts_as_votable
 
@@ -46,10 +45,15 @@ class GetawaySearch < ActiveRecord::Base
   end
 
   def add_trip_options!
+    real_price_limit = price_limit + 10.0
     api_results.each do |res|
       adapter = GoogleFlightsAdapter.new(res)
-      adapter.trip_options.each do |trip_option|
-        self.trip_options << trip_option if trip_option.price < price_limit + 10.0
+      # opts = adapter.trip_options
+      # opts.reject!{ |o| o.price > real_price_limit }
+      opts.each do |trip_option|
+        if trip_option.price <= real_price_limit
+          self.trip_options << trip_option
+        end
       end
     end
   end
@@ -62,9 +66,7 @@ class GetawaySearch < ActiveRecord::Base
     trip_options.sort_by(&:price).first
   end
 
-  private ############################################################################################################################
-
-  def download_api_results!
+  def perform_search!
 
 
     [
@@ -86,6 +88,10 @@ class GetawaySearch < ActiveRecord::Base
 
     add_trip_options!
   end
+
+  private ############################################################################################################################
+
+
 
   def get_first_departure_date
     Chronic.parse("next #{leave_on.gsub('a_', '')}") + 7.hours

@@ -13,6 +13,7 @@ end
 
   # You can have the root of your site routed with "root"
   root 'getaway_searches#index'
+  mount Resque::Server, :at => "/resque"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

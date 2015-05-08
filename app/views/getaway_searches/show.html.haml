@@ -19,5 +19,8 @@
     :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, |
     :class => 'btn btn-danger'                                                                                   |
 
-%h2 Trip Options
-= render partial: "trip_options/list", locals: { trip_options: @getaway_search.trip_options.sort_by(&:price) }
+- if @getaway_search.search_complete?
+  %h2 Trip Options
+  = render partial: "trip_options/list", locals: { trip_options: @getaway_search.trip_options.sort_by(&:price) }
+- else
+  %h2 Search in Progress!
