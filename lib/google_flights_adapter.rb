@@ -29,7 +29,7 @@ class GoogleFlightsAdapter
     hsh[:qpx_id] = trip_option_json["id"]
     segments_json = trip_option_json["slice"].map{ |slice| slice["segment"] }.flatten
     hsh[:segments] = segments_json.map { |j| Segment.new(parse_segment(j)) }
-    hsh[:fly_to] = "ATL" #TODO: This needs to get passed from somewhere.  It is currently hard-coded everywhere right now.
+    hsh[:fly_to] = @api_result.fly_to
     hsh
   end
 

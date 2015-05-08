@@ -1,5 +1,7 @@
 class GetawaySearch < ActiveRecord::Base
 
+  DESTINATIONS = ["ATL","ORD","DEN","LGA","SFO","LAX","SEA","MIA","MSO"]
+
   VALID_LEAVE_ON_VALUES = { a_friday: "A Friday", a_thursday: "A Thursday" }
   VALID_RETURN_ON_VALUES = { following_sunday: "The following Sunday", following_monday: "The following Monday" }
 
@@ -17,14 +19,18 @@ class GetawaySearch < ActiveRecord::Base
   acts_as_votable
 
   def get_api_result(param_options={})
-    raise "Search is not valid!" unless self.valid?
 
-    key = "#{param_options[:fly_from]}_to_ATL_on_#{param_options[:departure_date].to_s}_return_#{param_options[:return_date].to_s}"
+    fly_to = param_options[:fly_to]
+    fly_from = param_options[:fly_from]
+
+    raise "Search is not valid!" unless self.valid? && fly_from.present? && fly_to.present? && DESTINATIONS.include?(fly_to) && fly_from != fly_to
+
+    key = "#{fly_from}_to_#{fly_to}_on_#{param_options[:departure_date].strftime("%m_%d_%Y")}_return_#{param_options[:return_date].strftime("%m_%d_%Y")}"
     response_body = DbCacheItem.get(key, valid_for: 12.hours) do
       request = GoogleFlightsRequest.new(
         :max_price => "1000.00",#'%.02f' % param_options[:price_limit],
-        :departure_airport => param_options[:fly_from],
-        :destination_airport => "ATL",
+        :departure_airport => fly_from,
+        :destination_airport => fly_to,
         :departure_date => param_options[:departure_date],#DateTime.now + 5.weeks,
         :return_date => param_options[:return_date]#DateTime.now + 5.weeks + 3.days
       )
@@ -32,7 +38,10 @@ class GetawaySearch < ActiveRecord::Base
       response.body
     end
 
-    api_res = ApiResult.new(result_json: JSON.parse(response_body))
+    api_res = ApiResult.new(result_json: JSON.parse(response_body),
+                fly_from: fly_from,
+                fly_to: fly_to
+              )
     self.api_results << api_res
   end
 
@@ -59,17 +68,20 @@ class GetawaySearch < ActiveRecord::Base
 
 
     [
-      earliest_departure_date,
-      earliest_departure_date + 7.days,
-      earliest_departure_date + 14.days
+      # earliest_departure_date,
+      earliest_departure_date + 7.days#,
+      # earliest_departure_date + 14.days
       # earliest_departure_date + 21.days  # TODO: move into worker to do longer searches
     ].each do |possible_departure_date|
-      get_api_result(
-        price_limit: price_limit,
-        fly_from: fly_from,
-        departure_date: possible_departure_date,
-        return_date: possible_departure_date + 2.days
-      )
+      (DESTINATIONS - [fly_from]).each do |destination|
+        get_api_result(
+          price_limit: price_limit,
+          fly_from: fly_from,
+          fly_to: destination,
+          departure_date: possible_departure_date,
+          return_date: possible_departure_date + 2.days
+        )
+      end
     end
 
     add_trip_options!
