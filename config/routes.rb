@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   #->Prelang (voting/acts_as_votable)
   member do
     get "vote"
+    get "render_trip_options_list"
   end
 end
 
@@ -13,6 +14,7 @@ end
 
   # You can have the root of your site routed with "root"
   root 'getaway_searches#index'
+  mount Resque::Server, :at => "/resque"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

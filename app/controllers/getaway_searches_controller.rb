@@ -3,7 +3,7 @@ class GetawaySearchesController < ApplicationController
   #->Prelang (scaffolding:rails/scope_to_user)
   before_filter :require_user_signed_in, only: [:edit, :update, :vote, :destroy]
 
-  before_action :set_getaway_search, only: [:show, :edit, :update, :destroy, :vote]
+  before_action :set_getaway_search, only: [:show, :edit, :update, :destroy, :render_trip_options_list, :vote]
 
   # GET /getaway_searches
   # GET /getaway_searches.json
@@ -35,6 +35,7 @@ class GetawaySearchesController < ApplicationController
 
     respond_to do |format|
       if @getaway_search.save
+        Resque.enqueue(GetawaySearchWorker, @getaway_search.id)
         format.html { redirect_to @getaway_search, notice: 'Getaway search was successfully created.' }
         format.json { render :show, status: :created, location: @getaway_search }
       else
@@ -87,6 +88,10 @@ class GetawaySearchesController < ApplicationController
     redirect_to action: :index
   end
 
+  #TODO: hamlbars or something...yes I'm lazy in my side projects!
+  def render_trip_options_list
+    render partial: "trip_options/list", locals: { trip_options: @getaway_search.trip_options.sort_by(&:price) }
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
