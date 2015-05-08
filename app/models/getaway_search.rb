@@ -48,12 +48,13 @@ class GetawaySearch < ActiveRecord::Base
     real_price_limit = price_limit + 10.0
     api_results.each do |res|
       adapter = GoogleFlightsAdapter.new(res)
-      # opts = adapter.trip_options
-      # opts.reject!{ |o| o.price > real_price_limit }
-      opts.each do |trip_option|
+      adapter.trip_options.each do |trip_option|
         if trip_option.price <= real_price_limit
           self.trip_options << trip_option
+        else
+          trip_option.destroy
         end
+
       end
     end
   end
