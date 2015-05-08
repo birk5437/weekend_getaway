@@ -1,6 +1,6 @@
 class GetawaySearch < ActiveRecord::Base
 
-  DESTINATIONS = ["ATL","ORD","DEN","LGA","SFO","LAX","SEA","MIA","MSO"]
+  DESTINATIONS = ["ATL","ORD","DEN","SFO","LAX","SEA","MIA","MSO"]
 
   VALID_LEAVE_ON_VALUES = { a_friday: "A Friday", a_thursday: "A Thursday" }
   VALID_RETURN_ON_VALUES = { following_sunday: "The following Sunday", following_monday: "The following Monday" }
