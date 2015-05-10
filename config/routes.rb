@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   #->Prelang (voting/acts_as_votable)
   member do
     get "vote"
+    get "render_trip_options_list"
   end
 end
 

@@ -19,8 +19,35 @@
     :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, |
     :class => 'btn btn-danger'                                                                                   |
 
-- if @getaway_search.search_complete?
-  %h2 Trip Options
-  = render partial: "trip_options/list", locals: { trip_options: @getaway_search.trip_options.sort_by(&:price) }
-- else
-  %h2 Search in Progress!
+.trip-options
+  - if @getaway_search.search_complete?
+    %h2 Loading Results....
+  - else
+    %h2 Search in Progress!  Results will show here when search is complete.
+
+
+:javascript
+  var refreshIntervalId
+  $(document).ready(function(){
+    refreshIntervalId = setInterval(doAjaxCall, 3000);
+  });
+
+  function doAjaxCall(){
+    var result = false;
+    $.ajax({
+      url: "#{@getaway_search.id}.json"
+    }).done(function(json){
+      if (json["search_complete"]) {
+        clearInterval(refreshIntervalId);
+        getTripOptionsListHtml();
+      }
+    });
+  }
+
+  function getTripOptionsListHtml(){
+    $.ajax({
+      url: "#{@getaway_search.id}/render_trip_options_list"
+    }).done(function(html){
+      $(".trip-options").html(html);
+    });
+  }

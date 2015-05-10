@@ -1,1 +1,14 @@
-json.extract! @getaway_search, :id, :price_limit, :user_id, :ip_address, :created_at, :updated_at
+json.extract! @getaway_search,
+                   :id,
+          :price_limit,
+              :user_id,
+           :ip_address,
+           :created_at,
+           :updated_at,
+             :fly_from,
+:api_result_updated_at,
+             :leave_on,
+ :leave_on_time_of_day,
+            :return_on,
+:return_on_time_of_day,
+      :search_complete
