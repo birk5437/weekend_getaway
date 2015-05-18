@@ -1,9 +1,9 @@
 - trip_option = local_assigns[:trip_option]
 .row
-  .col-md-3.col-sm-4.col-xs-12
+  .col-md-6.col-sm-6.col-xs-12
     %h3.margin-top-zero
-      = trip_option.destination_leg.destination
-  .col-md-9.col-sm-8.col-xs-12
+      = "#{trip_option.first_origin} ✈ #{trip_option.destination_leg.destination}"
+  .col-md-6.col-sm-6.col-xs-12
     %p.lead.green
       = money_format(trip_option.price)
 

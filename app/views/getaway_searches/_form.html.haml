@@ -9,14 +9,6 @@
       - select_options = [100, 200, 300, 500, 700, 1000].map{ |opt| [money_format(opt), opt] }
       = f.input :price_limit, :as => :select, :collection => select_options, :class => 'text-field form-control', label: false, include_blank: false
   .form-group
-    = f.label :leave_on, :class => 'control-label col-md-2'
-    .col-md-10
-      = f.input :leave_on, as: :select, collection: GetawaySearch::VALID_LEAVE_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control', label: false, include_blank: false
-  .form-group
-    = f.label :return_on, :class => 'control-label col-md-2'
-    .col-md-10
-      = f.input :return_on, as: :select, collection: GetawaySearch::VALID_RETURN_ON_VALUES.map{ |k,v| [v, k.to_s] }, :class => 'text-field form-control', label: false, include_blank: false
-  .form-group
     .col-md-offset-2.col-md-10
       = f.submit "Find a weekend getaway!", :class => 'btn btn-primary'
       - unless local_assigns[:hide_cancel]
