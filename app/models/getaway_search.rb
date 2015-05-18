@@ -26,7 +26,7 @@ class GetawaySearch < ActiveRecord::Base
 
     key = "#{fly_from}_to_#{fly_to}_on_#{param_options[:departure_date].strftime("%m_%d_%Y")}_return_#{param_options[:return_date].strftime("%m_%d_%Y")}"
     begin
-      response_body = DbCacheItem.get(key, valid_for: 365.days) do
+      response_body = DbCacheItem.get(key, valid_for: 1.day) do
         request = GoogleFlightsRequest.new(
           :max_price => "1000.00",#'%.02f' % param_options[:price_limit],
           :departure_airport => fly_from,
