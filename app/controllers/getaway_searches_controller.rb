@@ -32,6 +32,8 @@ class GetawaySearchesController < ApplicationController
   def create
     @getaway_search = GetawaySearch.new(getaway_search_params)
     @getaway_search.user = current_user
+    @getaway_search.leave_on = "a_friday"
+    @getaway_search.return_on = "following_sunday"
 
     respond_to do |format|
       if @getaway_search.save

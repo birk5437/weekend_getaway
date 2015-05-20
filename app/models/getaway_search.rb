@@ -1,6 +1,8 @@
 class GetawaySearch < ActiveRecord::Base
 
-  DESTINATIONS = ["ATL","ORD","DEN","SFO","LAX","SEA","MIA","MSO"]
+  ORIGINS = ["ATL", "ORD", "DEN", "LAX", "MIA", "LAS", "DFW", "CLT", "JFK", "IND", "SEA"]
+  DESTINATIONS = ["ATL","DEN","SFO","LAX","SEA","MIA","MSY", "LAS"]
+  AIRPORT_NAMES =  {"ATL" => "Atlanta", "ORD" => "Chicago O'Hare", "DEN" => "Denver", "LAX" => "Los Angeles", "MIA" => "Miami", "LAS" => "Las Vegas", "DFW" => "Dallas/Fort Worth", "CLT" => "Charlotte", "JFK" => "New York JFK", "IND" => "Indianapolis", "SEA" => "Seattle", "SFO" => "San Francisco", "MSY" => "New Orleans"}
 
   VALID_LEAVE_ON_VALUES = { a_friday: "A Friday", a_thursday: "A Thursday" }
   VALID_RETURN_ON_VALUES = { following_sunday: "The following Sunday", following_monday: "The following Monday" }
@@ -9,7 +11,7 @@ class GetawaySearch < ActiveRecord::Base
   has_many :trip_options, :dependent => :destroy
   has_many :api_results, :dependent => :destroy
 
-  validates_presence_of :fly_from, :price_limit, :leave_on, :return_on
+  validates_presence_of :fly_from, :price_limit#, :leave_on, :return_on
   # validates_inclusion_of :leave_on, :in => VALID_LEAVE_ON_VALUES.keys.map(&:to_s)
   # validates_inclusion_of :return_on, :in => VALID_RETURN_ON_VALUES.keys.map(&:to_s)
   # validates_formatting_of :ip_address, using: :ip_address_v4

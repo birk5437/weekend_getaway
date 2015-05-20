@@ -2,7 +2,9 @@
   .form-group
     = f.label :fly_from, :class => 'control-label col-md-2'
     .col-md-10
-      = f.text_field :fly_from, :class => 'text-field form-control'
+      - fly_from_options = GetawaySearch::ORIGINS.map{ |origin| [GetawaySearch::AIRPORT_NAMES[origin], origin] }.sort_by(&:first)
+      =# f.text_field :fly_from, :class => 'text-field form-control'
+      = f.input :fly_from, :as => :select, :collection => fly_from_options, :class => 'text-field form-control', label: false, include_blank: false
   .form-group
     = f.label :price_limit, :class => 'control-label col-md-2'
     .col-md-10
